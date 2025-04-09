@@ -12,6 +12,8 @@ import AddWriter from "./dashboard/pages/AddWriter";
 import Writers from "./dashboard/pages/Writers";
 import Login from "./dashboard/pages/Login";
 import Profile from "./dashboard/pages/Profile";
+import Live from "./dashboard/Featured/Live";
+import Dis from "./dashboard/Featured/Dis";
 function App() {
   return (
     <Router>
@@ -19,6 +21,8 @@ function App() {
         {/* Redirect root to /NewsHive */}
         <Route path="/" element={<Navigate to="/NewsHive" />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/live" element={<Live/>}/>
+        <Route path="/liveDis" element={<Dis/>}/>
         {/* Define Routes */}
         <Route path="/NewsHive" element={<Home />} />
         {/* Nested Route inside MainLayout */}
