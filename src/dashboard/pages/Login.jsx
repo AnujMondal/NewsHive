@@ -30,7 +30,7 @@ const Login = () => {
         setError('Incorrect email or password');
       }
     } catch (error) {
-      setError('Login failed. Please try again.'+error);
+      setError('Login failed. Please try again.');
     }
   };
 
