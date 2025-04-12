@@ -25,7 +25,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/live" element={<Live/>}/>
         <Route path="/indiNews" element={<IndiNews/>}/>
-        <Route path="/ApplyLive" element={<ManageLive/>}/>
+        <Route path="/manageLive" element={<ManageLive/>}/>
         {/* Define Routes */}
         <Route path="/NewsHive" element={<Home />} />
         {/* Nested Route inside MainLayout */}
