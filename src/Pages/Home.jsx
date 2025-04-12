@@ -92,6 +92,8 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
+import Dis from "../dashboard/Featured/Dis";
+
 
 // Constants
 const API_URL = "https://newshive-express-1.onrender.com/rndData?";
@@ -130,7 +132,7 @@ function Header() {
           </ul>
         </nav>
       </div>
-
+      
       {/* Breaking News Bar */}
       <div className="mt-2 bg-red-800 text-yellow-100 py-1 shadow-md w-full">
         <p className="text-sm font-semibold tracking-wide text-center">
@@ -368,15 +370,58 @@ function Footer() {
 
 function Home() {
   const [news, setNews] = useState([]);
-
+  const [livveAval,setLiveAval] = useState(false);
+  const [liveTitle,setLiveTitle] = useState("");
   useEffect(() => {
     axios.get(API_URL).then((response) => {
       setNews(response.data);
-      console.log(response.data);
     });
   }, []);
 
+  useEffect(() => {
+    const check = async () => {
+      try {
+        const l = await axios.get("https://newshive-express-1.onrender.com/checkLive");
+        console.log(l);
+        if (l.status === 200 && livveAval == false) {
+          setLiveAval(true);
+          setLiveTitle(l.data);
+        } else {
+          setLiveAval(false);
+          setLiveTitle("");
+        }
+      } catch (err) {
+        setLiveAval(false);
+        setLiveTitle("");
+      }
+    };
+  
+    check();
+    const intervalId = setInterval(check, 30000);
+    return () => clearInterval(intervalId);
+  }, []);
+  
+
   return (
+    // <div className="bg-gray-50 text-gray-900 min-h-screen font-sans">
+    //   <Header />
+    //   <NewsTicker news={news} />
+    //   <main className="p-8 max-w-7xl mx-auto">
+    //     <div className="flex flex-col lg:flex-row gap-8">
+    //       {/* Main Content */}
+    //       <div className="flex-1">
+    //         <TopStory news={news} />
+    //         <LatestNews news={news} />
+    //       </div>
+    //       {livveAval ? <Dis/> : <></>}
+    //       {/* Sidebar */}
+    //       <div className="w-full lg:w-80">
+    //         <Sidebar />
+    //       </div>
+    //     </div>
+    //   </main>
+    //   <Footer />
+    // </div>
     <div className="bg-gray-50 text-gray-900 min-h-screen font-sans">
       <Header />
       <NewsTicker news={news} />
@@ -384,9 +429,15 @@ function Home() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Main Content */}
           <div className="flex-1">
+          {livveAval && liveTitle && (
+              <div className="mt-6">
+                <Dis title={liveTitle} />
+              </div>
+            )}
             <TopStory news={news} />
             <LatestNews news={news} />
           </div>
+
           {/* Sidebar */}
           <div className="w-full lg:w-80">
             <Sidebar />

@@ -37,65 +37,69 @@ const Live = () => {
 
   const startStreaming = async () => {
     try {
-      setStatus("Starting stream...");
-      isFirstChunkRef.current = true;
-      
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: {
-          width: { ideal: 1280 },
-          height: { ideal: 720 },
-          frameRate: { ideal: 30 }
-        },
-        audio: true
-      });
-      streamRef.current = stream;
+      let check = await axios.get("https://newshive-express-1.onrender.com/LiveStart/"+streamId);
+      if(check.status == 200)
+      {
+        setStatus("Starting stream...");
+        isFirstChunkRef.current = true;
+        
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: {
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
+            frameRate: { ideal: 30 }
+          },
+          audio: true
+        });
+        streamRef.current = stream;
 
-      videoRef.current.srcObject = stream;
-      await videoRef.current.play();
-      
-      socketRef.current.emit('start-stream', { streamId });
-      setStatus("Initializing recorder...");
+        videoRef.current.srcObject = stream;
+        await videoRef.current.play();
+        
+        socketRef.current.emit('start-stream', { streamId });
+        setStatus("Initializing recorder...");
 
-      const options = {
-        mimeType: 'video/webm;codecs=vp9',
-        videoBitsPerSecond: 2500000,
-        audioBitsPerSecond: 128000
-      };
+        const options = {
+          mimeType: 'video/webm;codecs=vp9',
+          videoBitsPerSecond: 2500000,
+          audioBitsPerSecond: 128000
+        };
 
-      const mediaRecorder = new MediaRecorder(stream, options);
-      mediaRecorderRef.current = mediaRecorder;
-      
-      mediaRecorder.ondataavailable = async (e) => {
-        if (e.data.size > 0) {
-          try {
-            const buffer = await e.data.arrayBuffer();
-            const chunk = new Uint8Array(buffer);
-            
-            if (isFirstChunkRef.current) {
-              if (!validateWebMHeader(chunk)) {
-                console.error("Invalid WebM header in first chunk");
-                setStatus("Stream format error");
-                stopStreaming();
-                return;
+        const mediaRecorder = new MediaRecorder(stream, options);
+        mediaRecorderRef.current = mediaRecorder;
+        
+        mediaRecorder.ondataavailable = async (e) => {
+          if (e.data.size > 0) {
+            try {
+              const buffer = await e.data.arrayBuffer();
+              const chunk = new Uint8Array(buffer);
+              
+              if (isFirstChunkRef.current) {
+                if (!validateWebMHeader(chunk)) {
+                  console.error("Invalid WebM header in first chunk");
+                  setStatus("Stream format error");
+                  stopStreaming();
+                  return;
+                }
+                isFirstChunkRef.current = false;
               }
-              isFirstChunkRef.current = false;
+              
+              socketRef.current.emit('stream-chunk', chunk);
+            } catch (err) {
+              console.error("Error sending chunk:", err);
             }
-            
-            socketRef.current.emit('stream-chunk', chunk);
-          } catch (err) {
-            console.error("Error sending chunk:", err);
           }
-        }
-      };
+        };
 
-      mediaRecorder.onerror = (e) => {
-        console.error("Recorder error:", e);
-        setStatus(`Recorder error: ${e.error.name}`);
-      };
+        mediaRecorder.onerror = (e) => {
+          console.error("Recorder error:", e);
+          setStatus(`Recorder error: ${e.error.name}`);
+        };
 
-      mediaRecorder.start(1000); // 1 second chunks
-      setIsLive(true);
-      setStatus("Live - broadcasting");
+        mediaRecorder.start(1000); // 1 second chunks
+        setIsLive(true);
+        setStatus("Live - broadcasting");
+      }
     } catch (err) {
       console.error("Start stream error:", err);
       setStatus(`Error: ${err.message}`);
@@ -105,6 +109,8 @@ const Live = () => {
 
   const stopStreaming = async () => {
     try {
+      let check = await axios.get("https://newshive-express-1.onrender.com/LiveStop/"+streamId);
+      console.log(check);
       setStatus("Stopping stream...");
       
       if (mediaRecorderRef.current?.state !== 'inactive') {

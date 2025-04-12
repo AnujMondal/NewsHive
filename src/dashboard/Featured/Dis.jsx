@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { io } from "socket.io-client";
 
-const Dis = () => {
+const Dis = ({title}) => {
   const videoRef = useRef(null);
   const mediaSourceRef = useRef(null);
   const sourceBufferRef = useRef(null);
@@ -139,17 +139,32 @@ const Dis = () => {
   }, [streamId]);
 
   return (
-    <div className="flex flex-col items-center gap-4 p-4 bg-black text-white min-h-screen">
-      <h1 className="text-2xl font-bold">Live Viewer</h1>
-      <div className="text-sm text-gray-300">{status}</div>
+      // <video
+      //   ref={videoRef}
+      //   autoPlay
+      //   muted
+      //   playsInline
+      //   controls
+      //   className="rounded-2xl border-4 border-green-500 w-full max-w-xl shadow-lg"
+      // />
+<div className="bg-white border border-red-700 p-6 rounded-2xl shadow-2xl w-full max-w-3xl mx-auto mt-6">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-2xl font-bold text-red-700 tracking-wide uppercase">
+          {title}
+        </h2>
+        <span className="bg-red-600 text-white text-sm font-semibold px-3 py-1 rounded-full animate-pulse">
+          🔴 LIVE
+        </span>
+      </div>
+      <div className="flex justify-center items-center">
       <video
         ref={videoRef}
         autoPlay
-        muted
         playsInline
-        controls
-        className="rounded-2xl border-4 border-green-500 w-full max-w-xl shadow-lg"
-      />
+        className="rounded-xl border-4 border-red-600 w-full max-w-2xl shadow-lg"
+        onCanPlay={(e) => { e.target.volume = 1.0; }} // Set full volume
+        />
+      </div>
     </div>
   );
 };

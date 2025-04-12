@@ -14,6 +14,8 @@ import Login from "./dashboard/pages/Login";
 import Profile from "./dashboard/pages/Profile";
 import Live from "./dashboard/Featured/Live";
 import Dis from "./dashboard/Featured/Dis";
+import ManageLive from "./dashboard/Featured/ManageLive";
+import IndiNews from "./Pages/IndiNews";
 function App() {
   return (
     <Router>
@@ -22,7 +24,8 @@ function App() {
         <Route path="/" element={<Navigate to="/NewsHive" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/live" element={<Live/>}/>
-        <Route path="/liveDis" element={<Dis/>}/>
+        <Route path="/indiNews" element={<IndiNews/>}/>
+        <Route path="/ApplyLive" element={<ManageLive/>}/>
         {/* Define Routes */}
         <Route path="/NewsHive" element={<Home />} />
         {/* Nested Route inside MainLayout */}
