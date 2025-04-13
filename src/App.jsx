@@ -18,6 +18,7 @@ import ManageLive from "./dashboard/Featured/ManageLive";
 import IndiNews from "./Pages/IndiNews";
 import CreateNews from "./dashboard/pages/CreateNews";
 import News from "./info/News";
+import HighLightt from "./Pages/HighLightt";
 function App() {
   return (
     <Router>
@@ -29,6 +30,7 @@ function App() {
         <Route path="/indiNews" element={<IndiNews/>}/>
         <Route path="/manageLive" element={<ManageLive/>}/>
         {/* Define Routes */}
+        <Route path="/HighLight" element={<HighLightt/>}/>
         <Route path="/NewsHive" element={<Home />} />
         {/* Nested Route inside MainLayout */}
         <Route path="/admin" element={<MainLayout />}>

@@ -13,6 +13,12 @@ const Live = () => {
   const isFirstChunkRef = useRef(true);
   const location = useLocation();
   const { Sid } = location.state || {};
+  useEffect(()=>{
+    if(Sid == null || Sid.length == 0)
+    {
+      useNavigate("/");
+    }
+  },[]);
   useEffect(() => {
     socketRef.current = io("https://newshive-express-1.onrender.com", {
       transports: ["websocket", "polling"],
@@ -27,12 +33,6 @@ const Live = () => {
       socketRef.current?.disconnect();
     };
   }, []);
-  useEffect(()=>{
-    if(Sid == null || Sid.length == 0)
-    {
-      useNavigate("/");
-    }
-  },[]);
 
   const validateWebMHeader = (chunk) => {
     return chunk && chunk.length >= 4 && 

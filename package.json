@@ -23,7 +23,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "formidable": "^3.5.2",
-    "framer-motion": "^12.5.0",
+    "framer-motion": "^12.6.5",
     "html-to-text": "^9.0.5",
     "jodit-react": "^5.2.15",
     "jsonwebtoken": "^9.0.2",
