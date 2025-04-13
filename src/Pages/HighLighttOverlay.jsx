@@ -4,6 +4,7 @@ import ToastNotification from "../context/ToastNotification";
 const HighLighttOverlay = ({ news, onClose }) => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
+  const [priority,setPriority] = useState(0);
   const [error, setError] = useState("");
   const [toast, setToast] = useState(null);
   const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
@@ -15,6 +16,7 @@ const HighLighttOverlay = ({ news, onClose }) => {
         startTime,
         endTime,
         editor,
+        priority
       });
 
       if (res.status === 200 && res.data == "Successfully booked") {
@@ -24,7 +26,7 @@ const HighLighttOverlay = ({ news, onClose }) => {
         onClose();
       setToast(null);
       } else {
-        setToast({"message":error, "type":"error"});
+        setToast({"message":res.data, "type":"error"});
       }
     } catch (err) {
       
@@ -80,6 +82,15 @@ const HighLighttOverlay = ({ news, onClose }) => {
               type="datetime-local"
               value={endTime}
               onChange={(e) => setEndTime(e.target.value)}
+              className="w-full border border-gray-300 rounded px-3 py-2"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+            <input
+              type="number"
+              value={priority}
+              onChange={(e) => setPriority(e.target.value)}
               className="w-full border border-gray-300 rounded px-3 py-2"
             />
           </div>

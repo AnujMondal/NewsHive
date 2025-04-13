@@ -75,9 +75,6 @@ function NewsTicker({ news }) {
 }
 
 function TopStory({ news }) {
-  if (news.length === 0) return null;
-  news = news[0][0];
-  console.log(news._id);
   return (
     <div className="w-full lg:w-1/2 pr-0 lg:pr-2">
       <h2 className="text-2xl font-bold mb-3 text-red-600">Top Story</h2>
@@ -411,9 +408,9 @@ function Home() {
       try {
         const res = await axios.get("https://newshive-express-1.onrender.com/HighLightNow");
         if (res.status === 200 && res.data !== "No highlights found") {
-          setTop([res.data]);
+          setTop([res.data][0][0]);
         } else {
-          setTop(news.length > 0 ? [news[0]] : []);
+          setTop(news.length > 0 ? [news[0]][0] : []);
         }
       } catch (error) {
         setTop(news.length > 0 ? [news[0]] : []);
@@ -436,7 +433,7 @@ function Home() {
               </div>
             )}
         <div className="flex flex-col lg:flex-row gap-6 mb-8">
-        {top.length > 0 && <TopStory news={top} />}
+        {top._id && <TopStory news={top} />}
           <SideNews news={news} />
         </div>
 
