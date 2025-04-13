@@ -10,7 +10,7 @@ const HighLighttOverlay = ({ news, onClose }) => {
   const handleSubmit = async () => {
     try {
       const editor = localStorage.getItem("user");
-      const res = await axios.post("http://localhost:3000/highlight", {
+      const res = await axios.post("https://newshive-express-1.onrender.com/highlight", {
         newsId: news._id,
         startTime,
         endTime,

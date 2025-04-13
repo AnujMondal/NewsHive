@@ -409,7 +409,7 @@ function Home() {
   useEffect(() => {
     const load = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/HighLightNow");
+        const res = await axios.get("https://newshive-express-1.onrender.com/HighLightNow");
         if (res.status === 200 && res.data !== "No highlights found") {
           setTop([res.data]);
         } else {
