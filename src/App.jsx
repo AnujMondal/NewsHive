@@ -16,6 +16,8 @@ import Live from "./dashboard/Featured/Live";
 import Dis from "./dashboard/Featured/Dis";
 import ManageLive from "./dashboard/Featured/ManageLive";
 import IndiNews from "./Pages/IndiNews";
+import CreateNews from "./dashboard/pages/CreateNews";
+import News from "./info/News";
 function App() {
   return (
     <Router>
@@ -34,7 +36,10 @@ function App() {
           <Route path="writers" element={<Writers />} />
           <Route path="profile" element={<Profile />} />
         </Route>
-
+        <Route path="/writer" element={<MainLayout />} >
+          <Route path="news" element={<WriterIndex />} />
+          <Route path="createNews" element={<CreateNews />} />
+        </Route>
         <Route path="/news/:id" element={<NewsInfo />} />
         {/* Catch-all route for 404 */}
         {/* <Route path="*" element={<Navigate to="/NewsHive" />} /> */}

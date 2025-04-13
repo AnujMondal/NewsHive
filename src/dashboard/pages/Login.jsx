@@ -8,32 +8,70 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
-  useEffect(()=>{
-    if(localStorage.getItem("user"))
-    {
-      navigate('/admin');
+  
+  useEffect(() => {
+    // Check if user is already logged in
+    const user = localStorage.getItem("user");
+    const role = localStorage.getItem("role");
+    
+    if (user) {
+      // Redirect based on role
+      if (role === 'admin') {
+        navigate('/admin');
+      } else if (role === 'writer') {
+        navigate('/writer');
+      } else {
+        // Default route if role is not recognized
+        navigate('/admin');
+      }
     }
-  },[]);
+  }, [navigate]);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
     try {
-      // https://newshive-express-1.onrender.com
       const response = await axios.post('https://newshive-express-1.onrender.com/login', {
         email,
         password,
       });
+      console.log(response.data);
       if (response.data.success) {
-        localStorage.setItem("user",response.data.id);
-        localStorage.setItem("token",response.data.token);
-        navigate('/admin'); // Redirect on success
+        // Parse the JWT token to get the user info
+        const token = response.data.token;
+        const tokenParts = token.split('.');
+        
+        if (tokenParts.length === 3) {
+          // Decode the payload part (middle part) of the JWT
+          const payload = JSON.parse(atob(tokenParts[1]));
+          
+          // Store user info from token
+          localStorage.setItem("user", payload.id || "unknown");
+          localStorage.setItem("token", token);
+          localStorage.setItem("role", payload.role || "writer"); // Default to writer if not specified
+          localStorage.setItem("name", payload.name || "User"); // Default to 'User' if not specified
+          console.log("Token payload:", payload); // Log to see what's in your token
+          // Redirect based on role
+          if (payload.role === 'admin') {
+            navigate('/admin');
+          } else if (payload.role === 'writer') {
+            navigate('/writer');
+          } else {
+            // Default route if role is not recognized
+            navigate('/admin');
+          }
+        } else {
+          // Invalid token format
+          setError('Authentication error. Please try again.');
+        }
       } else {
         setError('Incorrect email or password');
       }
     } catch (error) {
-      setError('Login failed. Please try again.'+error);
+      setError('Login failed. Please try again. ' + error);
     }
   };
+
 
   return (
     <div className="flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-100 to-sky-200">
