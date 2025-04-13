@@ -7,7 +7,7 @@ const Dis = ({title}) => {
   const sourceBufferRef = useRef(null);
   const socketRef = useRef(null);
   const [status, setStatus] = useState("Initializing...");
-  const [streamId] = useState("67f68d36ca658f60f3158e44");
+  const [streamId] = useState("67fa94cac23e87148090dc9c");
   const bufferQueueRef = useRef([]);
 
   const initMediaSource = () => {

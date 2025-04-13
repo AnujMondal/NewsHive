@@ -366,6 +366,7 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
+import Dis from "../dashboard/Featured/Dis";
 
 // Constants
 const API_URL = "https://newshive-express-1.onrender.com/rndData?";
@@ -736,11 +737,35 @@ function Footer() {
 
 function Home() {
   const [news, setNews] = useState([]);
-
+  const [livveAval,setLiveAval] = useState(false);
+  const [liveTitle,setLiveTitle] = useState("");
   useEffect(() => {
     axios.get(API_URL).then((response) => {
       setNews(response.data);
     });
+  }, []);
+
+    useEffect(() => {
+    const check = async () => {
+      try {
+        const l = await axios.get("https://newshive-express-1.onrender.com/checkLive");
+        console.log(l);
+        if (l.status === 200 && livveAval == false) {
+          setLiveAval(true);
+          setLiveTitle(l.data);
+        } else {
+          setLiveAval(false);
+          setLiveTitle("");
+        }
+      } catch (err) {
+        setLiveAval(false);
+        setLiveTitle("");
+      }
+    };
+  
+    check();
+    const intervalId = setInterval(check, 30000);
+    return () => clearInterval(intervalId);
   }, []);
 
   return (
@@ -748,6 +773,11 @@ function Home() {
       <Header />
       <NewsTicker news={news} />
       <main className="px-10 py-12 w-full">
+      {livveAval && liveTitle && (
+              <div className="mt-6">
+                <Dis title={liveTitle} /><br/><br/>
+              </div>
+            )}
         <div className="flex flex-col lg:flex-row gap-6 mb-8">
           <TopStory news={news} />
           <SideNews news={news} />

@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { io } from "socket.io-client";
 import axios from 'axios';
-
+import { useLocation, useNavigate } from "react-router-dom";
 const Live = () => {
-  const [streamId] = useState("67f68d36ca658f60f3158e44");
+  const [streamId] = useState("67fa94cac23e87148090dc9c");
   const [isLive, setIsLive] = useState(false);
   const [status, setStatus] = useState("Ready");
   const videoRef = useRef(null);
@@ -11,7 +11,8 @@ const Live = () => {
   const socketRef = useRef(null);
   const streamRef = useRef(null);
   const isFirstChunkRef = useRef(true);
-
+  const location = useLocation();
+  const { Sid } = location.state || {};
   useEffect(() => {
     socketRef.current = io("https://newshive-express-1.onrender.com", {
       transports: ["websocket", "polling"],
@@ -26,6 +27,12 @@ const Live = () => {
       socketRef.current?.disconnect();
     };
   }, []);
+  useEffect(()=>{
+    if(Sid == null || Sid.length == 0)
+    {
+      useNavigate("/");
+    }
+  },[]);
 
   const validateWebMHeader = (chunk) => {
     return chunk && chunk.length >= 4 && 
@@ -37,7 +44,9 @@ const Live = () => {
 
   const startStreaming = async () => {
     try {
-      let check = await axios.get("https://newshive-express-1.onrender.com/LiveStart/"+streamId);
+      console.log(Sid);
+      let check = await axios.get("https://newshive-express-1.onrender.com/LiveStart/"+Sid);
+      console.log(check);
       if(check.status == 200)
       {
         setStatus("Starting stream...");
@@ -109,7 +118,8 @@ const Live = () => {
 
   const stopStreaming = async () => {
     try {
-      let check = await axios.get("https://newshive-express-1.onrender.com/LiveStop/"+streamId);
+      console.log(Sid);
+      let check = await axios.get("https://newshive-express-1.onrender.com/LiveStop/"+Sid);
       console.log(check);
       setStatus("Stopping stream...");
       

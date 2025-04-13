@@ -1,49 +1,49 @@
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const IndiNews = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");
-  const lastElementRef = useRef(null); // Assuming use for infinite scroll
-  const hasMore = true; // Placeholder, implement logic if needed
+  const navigate = useNavigate();
+  const [debounceTimeout, setDebounceTimeout] = useState(null);
+  const [change,setChange] = useState(true);
+  const [changeData,setChangeData] = useState([]);
+  const [dd,setDD] = useState([]);
+  const hasMore = true; 
 
   const checkTimeInRange = (datetimeString) => {
-    // Parse the input datetime string into a Date object
     const targetDate = new Date(datetimeString);
   
-    // Get the current time
     const currentDate = new Date();
   
-    // Calculate 5 minutes after the target datetime
     const fiveMinutesAfter = new Date(targetDate.getTime() + 5 * 60 * 1000);
   
-    // Check if the current time is between the target datetime and 5 minutes after it
     if (currentDate >= targetDate && currentDate <= fiveMinutesAfter) {
-      return true; // Current time is in the range
+      return true; 
     }
     
-    return false; // Current time is not in the range
+    return false; 
   };
   const getData = async () => {
     if (loading || !hasMore) return;
     setLoading(true);
     try {
-        // if(localStorage.getItem("user"))
-        // {
-        //     const res = await axios.get("https://newshive-express-1.onrender.com/indiNewsData/"+localStorage.getItem("user"), {
-        //         headers: {
-        //           'Authorization': localStorage.getItem("token"),
-        //           'Content-Type': 'application/json'
-        //         }});
-        //     if (res.status === 200) {
-        //       setData(res.data);
-        //     }
-        // }
-                const res = await axios.get("https://newshive-express-1.onrender.com/indiNewsData/Aniket");
-                if (res.status === 200) {
-                  setData(res.data);
-                }
+        if(localStorage.getItem("user"))
+        {
+          console.log(localStorage.getItem("name"));
+            const res = await axios.get("https://newshive-express-1.onrender.com/indiNewsData/"+localStorage.getItem("user"), {
+                headers: {
+                  'Authorization': localStorage.getItem("token"),
+                  'Content-Type': 'application/json'
+                }});
+                console.log(res);
+            if (res.status === 200) {
+              setData(res.data);
+              setDD(res.data);
+            }
+        }
     } catch (error) {
       console.error(error);
     } finally {
@@ -55,17 +55,58 @@ const IndiNews = () => {
     getData();
   }, []);
 
-  const handleSearch = (e) => setSearch(e.target.value);
 
-  const handelShow = (news) => {
-    // Implement modal or redirection logic here
-    console.log("Clicked News:", news);
+  const getAllValues = (obj) => {
+    let values = [];
+    for (let key in obj) {
+      if (typeof obj[key] === 'object' && obj[key] !== null) {
+        values = values.concat(getAllValues(obj[key]));
+      } else {
+        values.push(obj[key]);
+      }
+    }
+    return values;
   };
 
-  const filteredData = data.filter((item) =>
-    [item.title, item.category, item.content]
-      .some(field => field?.toLowerCase().includes(search.toLowerCase()))
-  );
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearch(value);
+  
+    if (debounceTimeout) {
+      clearTimeout(debounceTimeout);
+    }
+  
+    const timeout = setTimeout(() => {
+      if (value.trim() === "") {
+        setChange(true);
+        setDD(data);
+        return;
+      }
+  
+      let ddd = [];
+      for (let x of data) {
+        const values = getAllValues(x);
+        const keywords = value.split(" ");
+  
+        let matchFound = values.some((val) =>
+          keywords.some((k) => String(val).toLowerCase().includes(k.toLowerCase()))
+        );
+  
+        if (matchFound) {
+          ddd.push(x);
+        }
+      }
+  
+      setChange(false);
+      setChangeData([...ddd]);
+      setDD([...ddd]);
+  
+    }, 500);
+  
+    setDebounceTimeout(timeout);
+  };
+  
+
 
   return (
     <div className="p-6 bg-blue-50 min-h-screen">
@@ -96,13 +137,14 @@ const IndiNews = () => {
             </tr>
             </thead>
             <tbody className="divide-y divide-gray-300">
-              {data.map((news, index) => (
+              {
+                dd.map((news, index) => (
                 <tr
                   key={index}
                   onClick={() => {
-                    if(news.status === "active" && checkTimeInRange(news.Details.startTime))
+                    if(news.status === "Active" && checkTimeInRange(news.Details.startTime) )
                     {
-                        // redirect to start
+                      navigate("/live", { state: { Sid: news._id} });
                     }
                     }}
                   className="hover:bg-blue-100 cursor-pointer"
