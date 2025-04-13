@@ -17,6 +17,7 @@ import Dis from "./dashboard/Featured/Dis";
 import ManageLive from "./dashboard/Featured/ManageLive";
 import IndiNews from "./Pages/IndiNews";
 import CreateNews from "./dashboard/pages/CreateNews";
+
 import News from "./info/News";
 import HighLightt from "./Pages/HighLightt";
 function App() {
@@ -27,8 +28,8 @@ function App() {
         <Route path="/" element={<Navigate to="/NewsHive" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/live" element={<Live/>}/>
-        <Route path="/indiNews" element={<IndiNews/>}/>
-        <Route path="/manageLive" element={<ManageLive/>}/>
+       
+       
         {/* Define Routes */}
         <Route path="/HighLight" element={<HighLightt/>}/>
         <Route path="/NewsHive" element={<Home />} />
@@ -41,6 +42,8 @@ function App() {
         <Route path="/writer" element={<MainLayout />} >
           <Route path="news" element={<WriterIndex />} />
           <Route path="createNews" element={<CreateNews />} />
+          <Route path='requestLive' element={<ManageLive />} />
+          <Route path='manageLive' element={< IndiNews/>} />
         </Route>
         <Route path="/news/:id" element={<NewsInfo />} />
         {/* Catch-all route for 404 */}
