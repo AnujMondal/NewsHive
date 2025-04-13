@@ -17,9 +17,17 @@ import Dis from "./dashboard/Featured/Dis";
 import ManageLive from "./dashboard/Featured/ManageLive";
 import IndiNews from "./Pages/IndiNews";
 import CreateNews from "./dashboard/pages/CreateNews";
-
+import AddEditor from "./dashboard/pages/AddEditor";
 import News from "./info/News";
 import HighLightt from "./Pages/HighLightt";
+function AddWriterAndEditor() {
+  return (
+    <>
+      <AddWriter />
+      <AddEditor />
+    </>
+  );
+}
 function App() {
   return (
     <Router>
@@ -35,7 +43,7 @@ function App() {
         <Route path="/NewsHive" element={<Home />} />
         {/* Nested Route inside MainLayout */}
         <Route path="/admin" element={<MainLayout />}>
-          <Route path="writer/add" element={<AddWriter />} />
+          <Route path="writer/add" element={<AddWriterAndEditor />} />
           <Route path="writers" element={<Writers />} />
           <Route path="profile" element={<Profile />} />
         </Route>
@@ -45,6 +53,9 @@ function App() {
           <Route path='requestLive' element={<ManageLive />} />
           <Route path='manageLive' element={< IndiNews/>} />
         </Route>
+    <Route path="/editor" element={<MainLayout />}
+        
+    ></Route>
         <Route path="/news/:id" element={<NewsInfo />} />
         {/* Catch-all route for 404 */}
         {/* <Route path="*" element={<Navigate to="/NewsHive" />} /> */}
