@@ -30,7 +30,7 @@ const NewsOverlay = ({ news, onClose }) => {
           className="text-gray-700 mb-4"
           dangerouslySetInnerHTML={{ __html: news.content }}
         ></p>
-
+        {/* here html view */}
         {/* Metadata */}
         <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
           <div>
