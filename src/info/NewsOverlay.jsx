@@ -2,7 +2,7 @@ const NewsOverlay = ({ news, onClose }) => {
   return (
     <div
       className="fixed inset-0 flex items-center justify-center z-50"
-      style={{ backdropFilter: "blur(5px)",    backgroundColor: "rgba(44, 36, 36, 0.3)" }}
+      style={{ backdropFilter: "blur(5px)", backgroundColor: "rgba(44, 36, 36, 0.3)" }}
     >
       <div className="bg-white p-6 rounded-lg w-11/12 max-w-2xl relative shadow-lg">
         {/* Cross Button */}
@@ -26,11 +26,13 @@ const NewsOverlay = ({ news, onClose }) => {
         )}
 
         {/* Content */}
-        <p
-          className="text-gray-700 mb-4"
-          dangerouslySetInnerHTML={{ __html: news.content }}
-        ></p>
-        {/* here html view */}
+        <div className="overflow-y-auto max-h-96 mb-4"> {/* Added scroll */}
+          <p
+            className="text-gray-700"
+            dangerouslySetInnerHTML={{ __html: news.content }}
+          ></p>
+        </div>
+
         {/* Metadata */}
         <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
           <div>
@@ -64,6 +66,6 @@ const NewsOverlay = ({ news, onClose }) => {
       </div>
     </div>
   );
-}
+};
 
 export default NewsOverlay;
