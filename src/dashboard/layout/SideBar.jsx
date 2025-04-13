@@ -106,7 +106,7 @@ const Sidebar = () => {
                 <span className="text-xl">
                   <FaPlus />
                 </span>
-                <span>Add Writer</span>
+                <span>Add Writer / Editor</span>
               </Link>
             </li>
             <li>
