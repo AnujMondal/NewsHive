@@ -1,4 +1,49 @@
-const NewsOverlay = ({ news, onClose }) => {
+import axios from "axios";
+import { CheckCircle, XCircle } from "lucide-react";
+import { useState,useEffect } from "react";
+const NewsOverlay = ({ news, onClose ,onUpdate}) => {
+  const [isEditor,setIsEdtior] = useState(false);
+  const [approved, setApproved] = useState("");
+  useEffect(()=>{
+    if(localStorage.getItem("role") == "editor")
+    {
+        setIsEdtior(true);
+        setApproved(news.status);
+    }
+},[news]);
+  const config = {
+    "pending": {
+      text: "PENDING",
+      icon: null,
+      bg: "bg-gray-300",
+      textColor: "text-gray-700",
+    },
+    "active": {
+      text: "APPROVED",
+      icon: <CheckCircle className="w-5 h-5" />,
+      bg: "bg-green-500",
+      textColor: "text-white",
+    },
+    "inactive": {
+      text: "NOT APPROVED",
+      icon: <XCircle className="w-5 h-5" />,
+      bg: "bg-red-500",
+      textColor: "text-white",
+    },
+  };
+  const { text, icon, bg, textColor } = config[approved] || config["pending"];
+  const toggle = async() => {
+    let prev = approved;
+    let n = prev === "pending" ? "active" : prev === "active" ? "inactive" : prev === "inactive" ? "active" : "inactive"
+    const res = await axios.post("https://newshive-express-1.onrender.com/newsStatus",{id:news._id ,status:n});
+    if(res.status == 200)
+    {
+      setApproved(n);
+      onUpdate(news._id,n);
+    }
+    
+  };
+
   return (
     <div
       className="fixed inset-0 flex items-center justify-center z-50"
@@ -60,6 +105,14 @@ const NewsOverlay = ({ news, onClose }) => {
             ></span>{" "}
             {news.status}
           </div>
+          {isEditor && 
+          <button
+            onClick={toggle}
+            className={`flex items-center gap-2 px-6 py-3 rounded-full shadow-xl backdrop-blur-md bg-opacity-80 transition-all duration-300 transform hover:scale-105 active:scale-95 ${bg} ${textColor}`}
+          >
+            {icon}
+            <span className="font-semibold tracking-wide">{text}</span>
+          </button>}
         </div>
       </div>
     </div>

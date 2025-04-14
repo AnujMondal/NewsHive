@@ -121,20 +121,20 @@ const Sidebar = () => {
               </Link>
             </li>
           </>
-        ) : (
-          <>
-            <li>
-              <Link
-                to="/writer/createNews"
-                className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
-              >
-                <span className="text-xl">
-                  <FaPlus />
-                </span>
-                <span>Create News</span>
-              </Link>
-            </li>
-          </>
+        ) : (""
+          // <>
+          //   <li>
+          //     <Link
+          //       to="/writer/createNews"
+          //       className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
+          //     >
+          //       <span className="text-xl">
+          //         <FaPlus />
+          //       </span>
+          //       <span>Create News</span>
+          //     </Link>
+          //   </li>
+          // </>
         )}
 
         {role === "admin" ? (
@@ -149,20 +149,8 @@ const Sidebar = () => {
               <span>All News</span>
             </Link>
           </li>
-        ) : (
-          <li>
-            <Link
-              to="/writer/news"
-              className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
-            >
-              <span className="text-xl">
-                <BiNews />
-              </span>
-              <span>My News</span>
-            </Link>
-          </li>
-        )}
-        {role === "writer" && (
+        ) : ("")}
+        {role === "writer" && (<>
           <li>
             <Link
               to="/writer/requestLive"
@@ -174,6 +162,17 @@ const Sidebar = () => {
               <span>Live News</span>
             </Link>
           </li>
+          <li>
+          <Link
+            to="/writer/news"
+            className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
+          >
+            <span className="text-xl">
+              <BiNews />
+            </span>
+            <span>My News</span>
+          </Link>
+        </li></>
         )}
 
 
@@ -190,6 +189,22 @@ const Sidebar = () => {
             </Link>
           </li>
         )}
+
+{role === "editor" && (<>
+          <li>
+          <Link
+            to="/editor/news"
+            className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
+          >
+            <span className="text-xl">
+              <BiNews />
+            </span>
+            <span>My News</span>
+          </Link>
+        </li></>
+        )}
+
+
         <li>
           <Link
             to="/admin/profile"

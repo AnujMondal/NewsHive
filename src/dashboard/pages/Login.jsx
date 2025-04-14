@@ -58,7 +58,7 @@ const Login = () => {
             navigate('/writer');
           } else {
             // Default route if role is not recognized
-            navigate('/admin');
+            navigate('/editor');
           }
         } else {
           // Invalid token format

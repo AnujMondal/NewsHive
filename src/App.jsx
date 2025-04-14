@@ -53,9 +53,9 @@ function App() {
           <Route path='requestLive' element={<ManageLive />} />
           <Route path='manageLive' element={< IndiNews/>} />
         </Route>
-    <Route path="/editor" element={<MainLayout />}
-        
-    ></Route>
+    <Route path="/editor" element={<MainLayout />}>
+      <Route path="news" element={<News />} />
+    </Route>
         <Route path="/news/:id" element={<NewsInfo />} />
         {/* Catch-all route for 404 */}
         {/* <Route path="*" element={<Navigate to="/NewsHive" />} /> */}

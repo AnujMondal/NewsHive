@@ -12,6 +12,12 @@ const News = () => {
     const [news,setNews] = useState();
     const [isOverlayOpen, setIsOverlayOpen] = useState(false);
 
+    const updateNewsStatus = (id, status) => {
+        setData(prevData => 
+            prevData.map(item => 
+                item._id === id ? { ...item, status } : item
+            )
+    )};
     const handelShow = (news)=>{
         setNews(news);
         setIsOverlayOpen(true);
@@ -71,7 +77,7 @@ const News = () => {
     return (
         <>
         {isOverlayOpen && (
-            <NewsOverlay news={news} onClose={() => setIsOverlayOpen(false)} />
+            <NewsOverlay news={news} onClose={() => setIsOverlayOpen(false)} onUpdate={updateNewsStatus} />
         )}    
         <div className="p-6 bg-blue-50 min-h-screen">
             <div className="mb-4 flex justify-center">
