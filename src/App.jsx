@@ -20,6 +20,7 @@ import CreateNews from "./dashboard/pages/CreateNews";
 import AddEditor from "./dashboard/pages/AddEditor";
 import News from "./info/News";
 import HighLightt from "./Pages/HighLightt";
+import ApproveLive from "./dashboard/pages/ApproveLive";
 function AddWriterAndEditor() {
   return (
     <>
@@ -52,10 +53,13 @@ function App() {
           <Route path="createNews" element={<CreateNews />} />
           <Route path='requestLive' element={<ManageLive />} />
           <Route path='manageLive' element={< IndiNews/>} />
+          <Route path="profile" element={<Profile />} />
         </Route>
     <Route path="/editor" element={<MainLayout />}>
       <Route path="news" element={<News />} />
       <Route path='approve' element={<HighLightt />} />
+      <Route path="profile" element={<Profile />} />
+      <Route path="approveLive" element={<ApproveLive />} />
     </Route>
         <Route path="/news/:id" element={<NewsInfo />} />
         {/* Catch-all route for 404 */}

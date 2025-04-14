@@ -67,7 +67,8 @@ import { FiUsers } from "react-icons/fi";
 import { FaPlus } from "react-icons/fa";
 import { FaVideo } from "react-icons/fa";
 import { MdOutlineArticle } from "react-icons/md";
-import { MdFiberManualRecord } from 'react-icons/md'
+import { MdFiberManualRecord } from "react-icons/md";
+import { MdOutlinePublishedWithChanges } from "react-icons/md";
 import logo from "../../assets/logo.png";
 
 const Sidebar = () => {
@@ -121,7 +122,8 @@ const Sidebar = () => {
               </Link>
             </li>
           </>
-        ) : (""
+        ) : (
+          ""
           // <>
           //   <li>
           //     <Link
@@ -136,6 +138,21 @@ const Sidebar = () => {
           //   </li>
           // </>
         )}
+        {role === "writer" && (
+          <>
+            <li>
+              <Link
+                to="/writer/createNews"
+                className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
+              >
+                <span className="text-xl">
+                  <FaPlus />
+                </span>
+                <span>Create News</span>
+              </Link>
+            </li>
+          </>
+        )}
 
         {role === "admin" ? (
           <li>
@@ -149,65 +166,80 @@ const Sidebar = () => {
               <span>All News</span>
             </Link>
           </li>
-        ) : ("")}
-        {role === "writer" && (<>
-          <li>
-            <Link
-              to="/writer/requestLive"
-              className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
-            >
-              <span className="text-xl">
-                <FaVideo />
-              </span>
-              <span>Live News</span>
-            </Link>
-          </li>
-          <li>
-          <Link
-            to="/writer/news"
-            className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
-          >
-            <span className="text-xl">
-              <BiNews />
-            </span>
-            <span>My News</span>
-          </Link>
-        </li></>
+        ) : (
+          ""
+        )}
+        {role === "writer" && (
+          <>
+            <li>
+              <Link
+                to="/writer/requestLive"
+                className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
+              >
+                <span className="text-xl">
+                  <FaVideo />
+                </span>
+                <span>Live News</span>
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/writer/news"
+                className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
+              >
+                <span className="text-xl">
+                  <BiNews />
+                </span>
+                <span>My News</span>
+              </Link>
+            </li>
+          </>
         )}
 
-
-{role === "writer" && (
+        {role === "writer" && (
           <li>
             <Link
               to="/writer/manageLive"
               className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
             >
               <span className="text-xl">
-                <MdFiberManualRecord/>
+                <MdFiberManualRecord />
               </span>
               <span>Manage Live Stream</span>
             </Link>
           </li>
         )}
 
-{role === "editor" && (<>
-          <li>
-          <Link
-            to="/editor/news"
-            className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
-          >
-            <span className="text-xl">
-              <BiNews />
-            </span>
-            <span>My News</span>
-          </Link>
-        </li></>
-        )}
-
+{role === "editor" && (
+  <li>
+    <Link
+      to="/editor/approve"
+      className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
+    >
+      <span className="text-xl">
+        <MdOutlinePublishedWithChanges /> {/* You can import this icon */}
+      </span>
+      <span>Approve News</span>
+    </Link>
+  </li>
+)}
+{role === "editor" && (
+  <li>
+    <Link
+      to="/editor/approveLive"
+      className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
+    >
+      <span className="text-xl">
+        <MdFiberManualRecord /> {/* You can import this icon */}
+      </span>
+      <span>Approve Live</span>
+    </Link>
+  </li>
+)}
 
         <li>
           <Link
-            to="/admin/profile"
+            to={`/${role}/profile`}
             className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
           >
             <span className="text-xl">

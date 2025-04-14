@@ -79,7 +79,7 @@ const NewsOverlay = ({ news, onClose ,onUpdate}) => {
         {/* Metadata */}
         <div className="grid grid-cols-2 gap-4 text-sm text-gray-600">
           <div>
-            <strong>Reporter:</strong> {news.reporter || "N/A"}
+            <strong>Reporter:</strong> {news.repoter || "N/A"}
           </div>
           <div>
             <strong>Category:</strong> {news.category || "N/A"}
