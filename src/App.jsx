@@ -55,6 +55,7 @@ function App() {
         </Route>
     <Route path="/editor" element={<MainLayout />}>
       <Route path="news" element={<News />} />
+      <Route path='approve' element={<HighLightt />} />
     </Route>
         <Route path="/news/:id" element={<NewsInfo />} />
         {/* Catch-all route for 404 */}
