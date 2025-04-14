@@ -13,6 +13,7 @@ const Live = () => {
   const isFirstChunkRef = useRef(true);
   const location = useLocation();
   const { Sid } = location.state || {};
+  const navigate = useNavigate();
   useEffect(()=>{
     if(Sid == null || Sid.length == 0)
     {
@@ -146,6 +147,11 @@ const Live = () => {
 
   return (
     <div className="flex flex-col items-center gap-4 p-4 bg-black text-white min-h-screen">
+      {!isLive &&  <button
+          onClick={() => navigate("/writer")}
+          className="bg-white text-black font-semibold py-2 px-4 rounded shadow hover:bg-gray-100 transition"
+        >GO BACK 
+        </button>}
       <h1 className="text-2xl font-bold">Live Broadcast</h1>
       <div className="text-sm text-gray-300">{status}</div>
       <video
