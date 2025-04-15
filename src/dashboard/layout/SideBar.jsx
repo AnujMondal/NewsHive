@@ -210,10 +210,10 @@ const Sidebar = () => {
           </li>
         )}
 
-{role === "editor" && (
+{role === "editor" && (<>
   <li>
     <Link
-      to="/editor/approve"
+      to="/editor/news"
       className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
     >
       <span className="text-xl">
@@ -222,6 +222,17 @@ const Sidebar = () => {
       <span>Approve News</span>
     </Link>
   </li>
+  <li>
+  <Link
+    to="/editor/approve"
+    className="px-3 py-2 hover:shadow-lg hover:shadow-indigo-500/20 w-full rounded-sm flex gap-x-2 justify-start items-center hover:bg-indigo-500 hover:text-white"
+  >
+    <span className="text-xl">
+      <MdOutlinePublishedWithChanges /> {/* You can import this icon */}
+    </span>
+    <span>HighLight</span>
+  </Link>
+</li></>
 )}
 {role === "editor" && (
   <li>
