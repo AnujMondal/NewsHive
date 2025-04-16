@@ -11,7 +11,7 @@ News Hive is an innovative MERN stack web application designed to streamline new
 - ✅ **Article Submission & Editing** – Journalists can submit, edit, and manage their news articles.  
 - ✅ **Editorial Review System** – Editors can approve, reject, or modify articles before publishing.  
 - ✅ **Real-Time Updates** – Published articles appear instantly, ensuring up-to-date news coverage.
-- ✅ **Live Streaming Capability – Reporters can broadcast breaking news events in real-time using Socket.IO WebSocket technology with buffer management.**  
+- ✅ **Live Streaming Capability** – Reporters can broadcast breaking news events in real-time using Socket.IO WebSocket technology with buffer management. 
 - ✅ **Responsive UI** – Built using React.js & Tailwind CSS for an intuitive and seamless experience.  
 - ✅ **Optimized API & Database Queries** – Efficient Axios API calls and MongoDB indexing for faster performance.  
 - ✅ **Secure Backend** – Developed using Node.js & Express.js, with MongoDB Atlas for cloud-based data storage.
